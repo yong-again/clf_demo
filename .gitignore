@@ -44,8 +44,11 @@ Thumbs.db
 # ------------------------------
 data/
 !data/.gitkeep
-results/
-!results/.gitkeep
+
+results/*
+!results/**/test_results.json
+!results/
+!results/**/
 
 # ------------------------------
 # Model Checkpoints / Weights

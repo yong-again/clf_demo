@@ -59,6 +59,7 @@ def test_model(cfg, test_loader, exp_path):
     results = {
         "loss" : avg_loss,
         "acc" : acc,
+        "architecture" : cfg.MODEL_NAME,
         "predictions" : predictions
     }
 

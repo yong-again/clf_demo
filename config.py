@@ -1,6 +1,7 @@
 import multiprocessing
 from pathlib import Path
 import torch
+from utils.device_check import get_device, get_amp_dtye
 
 class Config:
     def __init__(self):
@@ -15,7 +16,7 @@ class Config:
         # ----------------------------
         # Model Settings
         # ----------------------------
-        self.MODEL_NAME = "efficientnet_v2_s" # 참조: https://docs.pytorch.org/vision/stable/models.html
+        self.MODEL_NAME = "resnet18" # 참조: https://docs.pytorch.org/vision/stable/models.html
         self.PRETRAINED = True
         self.NUM_CLASSES = 5
         self.FREEZE_BACKBONE = False
@@ -23,8 +24,8 @@ class Config:
         # ----------------------------
         # Optimizer Settings
         # ----------------------------
-        self.OPTIMIZER = "SGD"  # "SGD", "AdamW" 등 선택 가능
-        self.BASE_LR = 1e-5
+        self.OPTIMIZER = "Adam"  # "SGD", "AdamW" 등 선택 가능
+        self.BASE_LR = 1e-4
         self.WEIGHT_DECAY = 1e-5
         self.MOMENTUM = 0.9  # SGD 전용
 
@@ -45,9 +46,10 @@ class Config:
         # ----------------------------
         self.BATCH_SIZE = 64
         self.NUM_WORKERS = cpu_count
-        self.NUM_EPOCHS = 5
-        self.DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.USE_AMP = False
+        self.NUM_EPOCHS = 30
+        self.DEVICE = get_device()
+        self.AMP_DTYPE = get_amp_dtye(self.DEVICE)
+        self.USE_AMP = True
         self.GRADIENT_ACCUMULATION_STEPS = 1
         self.SAVE_BEST_MODEL = True
         self.EARLY_STOPPING_PATIENCE = 5

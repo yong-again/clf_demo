@@ -53,15 +53,13 @@ def train_model(cfg, train_loader, val_loader, checkpoint_path):
 
             optimizer.zero_grad()
 
-            with autocast(enabled=cfg.USE_AMP):
+            with autocast(dtype=cfg.AMP_DTYPE, enabled=cfg.USE_AMP):
                 logits = model(images)
                 loss = criterion(logits, labels)
 
             scaler.scale(loss).backward()
-
-            if (step + 1) % cfg.GRADIENT_ACCUMULATION_STEPS == 0:
-                scaler.step(optimizer)
-                scaler.update()
+            scaler.step(optimizer)
+            scaler.update()
 
             running_loss += loss.item() * images.size(0)
             _, preds = torch.max(logits, 1)

@@ -64,7 +64,6 @@ def evaluate_model(cfg, model, dataloader, return_loss=False):
     """
     validation or test data로 모델 평가 코드
     """
-
     model.eval()
     criterion = build_loss(cfg)
     correct, total = 0, 0
